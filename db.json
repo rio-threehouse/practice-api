@@ -1,0 +1,12 @@
+{
+  "memos": [
+    {
+      "id": 1,
+      "memo": "JavaScript覚える"
+    },
+    {
+      "id": 2,
+      "memo": "jQuery覚える"
+    }
+  ]
+}
