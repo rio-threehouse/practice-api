@@ -8,15 +8,15 @@ export default class App extends React.Component  {
       memo: '',
       lists: [],
     }
-    this._onChange = this._onChange.bind(this)
+    this._onSubmit = this._onSubmit.bind(this);
+    this._onChange = this._onChange.bind(this);
   }
 
   componentWillMount(){
-  this.fetchResponse();
-}
+    this.fetchResponse();
+  }
 
 fetchResponse(){
-  console.log('done');
   fetch('http://localhost:3001/memos')
   .then( res => res.json( ))
   .then( res => {
@@ -26,6 +26,22 @@ fetchResponse(){
   })
 }
 
+  _onSubmit(event) {
+    event.preventDefault();
+    fetch('http://localhost:3001/memos', {
+      method: 'POST',
+      body: JSON.stringify({
+        memo: this.state.memo
+      }),
+      headers: new Headers({ 'Content-type' : 'application/json'})
+    }).then(() => {
+      this.fetchResponse();
+      this.setState({
+        memo: ''
+      })
+    })
+  }
+
   _onChange(event) {
     this.setState({
       memo: event.target.value,
@@ -34,7 +50,7 @@ fetchResponse(){
 
   render() {
     return (
-      <form>
+      <form onSubmit={this._onSubmit}>
         <div>
           <label>memo</label>
           <br />
@@ -46,7 +62,6 @@ fetchResponse(){
             return (<li key={item.id}>{item.memo}</li>)
           })}
         </ul>
-        {console.log('list:',this.state.lists)}
       </form>
     );
   }
